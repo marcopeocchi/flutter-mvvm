@@ -1,39 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm_study/ye/controllers/quotes.dart';
+import 'package:mvvm_study/core/container.dart';
+import 'package:mvvm_study/ye/viewmodels/quotes.dart';
 
-class Quote extends StatelessWidget {
-  final QuotesController controller;
-  const Quote({
-    super.key,
-    required this.controller,
-  });
+class QuotesView extends StatefulWidget {
+  const QuotesView({super.key});
+
+  @override
+  State<QuotesView> createState() => _QuoteState();
+}
+
+class _QuoteState extends State<QuotesView> {
+  final QuotesViewmodel vm = InjectionContainer.sl();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
           child: StreamBuilder(
-            stream: controller.events(),
+            stream: vm.events(),
             builder: (context, snapshot) {
               if (snapshot.data != null) {
                 return snapshot.data!.fold(
                   (l) => Text(l),
-                  (r) => Text(r.quote),
+                  (r) => r.isEmpty
+                      ? const CircularProgressIndicator()
+                      : Text(
+                          r.quote!,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                 );
               }
-              return const Text('Press the button below');
+              return const Center(
+                child: Text(
+                  'Hello!',
+                  style: TextStyle(fontSize: 16),
+                ),
+              );
             },
           ),
         ),
-        ElevatedButton(
-          onPressed: () {
-            controller.getRandom();
-          },
-          child: const Text('Ye'),
-        )
-      ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => vm.getRandom(),
+        tooltip: 'Get quote',
+        child: const Icon(Icons.shuffle),
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    vm.dispose();
+    super.dispose();
   }
 }

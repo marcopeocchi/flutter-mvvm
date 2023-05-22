@@ -3,21 +3,26 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:mvvm_study/ye/controllers/quotes.dart';
+import 'package:mvvm_study/ye/viewmodels/quotes.dart';
 import 'package:mvvm_study/ye/models/quote.dart';
 
-class QuotesControllerImpl implements QuotesController {
+class QuotesViewmodelImpl implements QuotesViewmodel {
   final HttpClient client;
 
-  const QuotesControllerImpl(this.client);
+  const QuotesViewmodelImpl(this.client);
   static final StreamController<Either<String, Quote>> _controller =
-      StreamController();
+      StreamController.broadcast();
 
   final _url = 'https://api.kanye.rest/';
 
   @override
   Future<void> getRandom() async {
     try {
+      _controller.sink.add(Right(Quote.empty()));
+
+      // simulated API delay
+      await Future.delayed(const Duration(milliseconds: 500));
+
       final req = await client.getUrl(Uri.parse(_url));
       final res = await req.close();
 
@@ -32,11 +37,11 @@ class QuotesControllerImpl implements QuotesController {
 
   @override
   Stream<Either<String, Quote>> events() {
-    return _controller.stream;
+    return _controller.stream.asBroadcastStream();
   }
 
   @override
-  void dispose() async {
+  Future<void> dispose() async {
     return _controller.close();
   }
 }

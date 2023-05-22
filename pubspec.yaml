@@ -41,6 +41,7 @@ dependencies:
   mobx_codegen: ^2.3.0
   json_annotation: ^4.8.1
   get_it: ^7.6.0
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
