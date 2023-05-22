@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm_study/core/container.dart';
 import 'package:mvvm_study/core/widgets/failure.dart';
-import 'package:mvvm_study/ye/viewmodels/quotes.dart';
+import 'package:mvvm_study/ye/controllers/quotes.dart';
 
 class QuotesView extends StatefulWidget {
   const QuotesView({super.key});
@@ -11,7 +11,7 @@ class QuotesView extends StatefulWidget {
 }
 
 class _QuoteState extends State<QuotesView> {
-  final QuotesViewmodel vm = InjectionContainer.sl();
+  final QuotesController vm = InjectionContainer.sl();
 
   @override
   Widget build(BuildContext context) {

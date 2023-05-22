@@ -1,35 +1,26 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:mvvm_study/core/failure.dart';
 import 'package:mvvm_study/core/failures.dart';
+import 'package:mvvm_study/ye/controllers/quotes.dart';
 import 'package:mvvm_study/ye/models/quote.dart';
-import 'package:mvvm_study/ye/viewmodels/quotes.dart';
+import 'package:mvvm_study/ye/repository/quotes.dart';
 
-class QuotesViewmodelImpl implements QuotesViewmodel {
-  final HttpClient client;
+class QuotesControllerImpl implements QuotesController {
+  final QuotesRepository repository;
 
-  const QuotesViewmodelImpl(this.client);
+  const QuotesControllerImpl(this.repository);
+
   static final StreamController<Either<Failure, Quote>> _controller =
       StreamController.broadcast();
-
-  final _url = 'https://api.kanye.rest/';
 
   @override
   Future<void> getRandom() async {
     try {
       _controller.sink.add(Right(Quote.empty()));
 
-      // simulated API delay
-      await Future.delayed(const Duration(milliseconds: 500));
-
-      final req = await client.getUrl(Uri.parse(_url));
-      final res = await req.close();
-
-      final data = await res.transform(utf8.decoder).join();
-      final quote = Quote.fromJson(jsonDecode(data));
+      final quote = await repository.getRandom();
 
       return _controller.sink.add(Right(quote));
     } catch (e) {
