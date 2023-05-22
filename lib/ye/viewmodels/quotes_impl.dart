@@ -3,14 +3,16 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:mvvm_study/ye/viewmodels/quotes.dart';
+import 'package:mvvm_study/core/failure.dart';
+import 'package:mvvm_study/core/failures.dart';
 import 'package:mvvm_study/ye/models/quote.dart';
+import 'package:mvvm_study/ye/viewmodels/quotes.dart';
 
 class QuotesViewmodelImpl implements QuotesViewmodel {
   final HttpClient client;
 
   const QuotesViewmodelImpl(this.client);
-  static final StreamController<Either<String, Quote>> _controller =
+  static final StreamController<Either<Failure, Quote>> _controller =
       StreamController.broadcast();
 
   final _url = 'https://api.kanye.rest/';
@@ -31,12 +33,12 @@ class QuotesViewmodelImpl implements QuotesViewmodel {
 
       return _controller.sink.add(Right(quote));
     } catch (e) {
-      return _controller.sink.add(Left(e.toString()));
+      return _controller.sink.add(const Left(FetchFailure()));
     }
   }
 
   @override
-  Stream<Either<String, Quote>> events() {
+  Stream<Either<Failure, Quote>> events() {
     return _controller.stream.asBroadcastStream();
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mvvm_study/core/container.dart';
+import 'package:mvvm_study/core/widgets/failure.dart';
 import 'package:mvvm_study/ye/viewmodels/quotes.dart';
 
 class QuotesView extends StatefulWidget {
@@ -23,7 +24,7 @@ class _QuoteState extends State<QuotesView> {
             builder: (context, snapshot) {
               if (snapshot.data != null) {
                 return snapshot.data!.fold(
-                  (l) => Text(l),
+                  (l) => FailureWidget(failure: l),
                   (r) => r.isEmpty
                       ? const CircularProgressIndicator()
                       : Text(
