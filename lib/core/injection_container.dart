@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:get_it/get_it.dart';
-import 'package:mvvm_study/ye/controllers/quotes.dart';
-import 'package:mvvm_study/ye/controllers/quotes_impl.dart';
+import 'package:mvvm_study/ye/services/quotes.dart';
+import 'package:mvvm_study/ye/services/quotes_impl.dart';
 import 'package:mvvm_study/ye/repository/quotes.dart';
 import 'package:mvvm_study/ye/repository/quotes_impl.dart';
+import 'package:mvvm_study/ye/stores/quotes.dart';
 
 class InjectionContainer {
   static final sl = GetIt.instance;
@@ -14,9 +15,11 @@ class InjectionContainer {
       () => QuotesRepositoryImpl(sl()),
     );
 
-    sl.registerLazySingleton<QuotesController>(
-      () => QuotesControllerImpl(sl()),
+    sl.registerLazySingleton<QuotesService>(
+      () => QuotesServiceImpl(sl()),
     );
+
+    sl.registerLazySingleton<QuotesStore>(() => QuotesStore(sl()));
 
     sl.registerLazySingleton<HttpClient>(() => HttpClient());
   }

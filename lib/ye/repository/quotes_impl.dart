@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:fpdart/fpdart.dart';
+import 'package:mvvm_study/core/failure.dart';
+import 'package:mvvm_study/core/failures.dart';
 import 'package:mvvm_study/ye/models/quote.dart';
 import 'package:mvvm_study/ye/repository/quotes.dart';
 
@@ -12,7 +15,15 @@ class QuotesRepositoryImpl implements QuotesRepository {
   final _url = 'https://api.kanye.rest/';
 
   @override
-  Future<Quote> getRandom() async {
+  TaskEither<Failure, Quote> getRandom() => TaskEither.tryCatch(
+        () => _makeRequest(),
+        (error, stackTrace) => FetchFailure(
+          error: error,
+          stacktrace: stackTrace.toString(),
+        ),
+      );
+
+  Future<Quote> _makeRequest() async {
     // simulated API delay
     await Future.delayed(const Duration(milliseconds: 500));
 

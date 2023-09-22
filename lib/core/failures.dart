@@ -6,6 +6,7 @@ class FetchFailure extends Failure {
     super.message = 'An error occured while fetching data from the server',
     super.severity = FailureSeverity.high,
     super.stacktrace = '',
+    super.error = '',
   });
 }
 
@@ -15,5 +16,6 @@ class DecodingFailure extends Failure {
     super.message = 'An error occured while decoding response',
     super.severity = FailureSeverity.critical,
     super.stacktrace = '',
+    super.error = '',
   });
 }
