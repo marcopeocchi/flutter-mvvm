@@ -10,6 +10,16 @@ class FetchFailure extends Failure {
   });
 }
 
+class SharedPreferenceFailure extends Failure {
+  const SharedPreferenceFailure({
+    super.type = 'SharedPreferenceFailure',
+    super.message = 'An error occured while fetching from SharedPreferences',
+    super.severity = FailureSeverity.high,
+    super.stacktrace = '',
+    super.error = '',
+  });
+}
+
 class DecodingFailure extends Failure {
   const DecodingFailure({
     super.type = 'DecodingFailure',
