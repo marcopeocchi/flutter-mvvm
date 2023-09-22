@@ -4,7 +4,7 @@ class FetchFailure extends Failure {
   const FetchFailure({
     super.type = 'FetchFailure',
     super.message = 'An error occured while fetching data from the server',
-    super.severity = FailureSeverity.high,
+    super.severity = FailureSeverity.critical,
     super.stacktrace = '',
     super.error = '',
   });
@@ -15,6 +15,16 @@ class SharedPreferenceFailure extends Failure {
     super.type = 'SharedPreferenceFailure',
     super.message = 'An error occured while fetching from SharedPreferences',
     super.severity = FailureSeverity.high,
+    super.stacktrace = '',
+    super.error = '',
+  });
+}
+
+class CacheMissFailure extends Failure {
+  const CacheMissFailure({
+    super.type = 'CacheMissFailure',
+    super.message = 'A cache key was not found in the store',
+    super.severity = FailureSeverity.low,
     super.stacktrace = '',
     super.error = '',
   });

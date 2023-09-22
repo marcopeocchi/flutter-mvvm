@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:mvvm_study/core/container.dart';
+import 'package:mvvm_study/core/injection_container.dart';
 import 'package:mvvm_study/ye/stores/quotes.dart';
 import 'package:mvvm_study/ye/views/quotes.dart';
 import 'package:provider/provider.dart';

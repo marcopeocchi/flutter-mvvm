@@ -52,7 +52,7 @@ class QuotesRepositoryImpl implements QuotesRepository {
     final data = prefs.getString("cached");
 
     if (data == null) {
-      throw "cannot find cached quote";
+      throw const CacheMissFailure();
     }
 
     return Quote.fromJson(jsonDecode(data));

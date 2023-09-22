@@ -38,7 +38,6 @@ abstract class _QuotesStoreBase with Store {
   @action
   Future getRandom() async {
     final transaction = Sentry.startTransaction('getRandom()', 'task');
-
     resetState();
 
     final either = await _service.getRandom().run();

@@ -16,7 +16,8 @@ class QuotesServiceImpl implements QuotesService {
   // In questo caso i task either sono concatenati, se il primo dovesse
   // restituire un Left allora il metodo flatMap associa la computazione al
   // task getFromStorage.
-  TaskEither<Failure, Quote> getRandomSaveLocal() =>
+  @override
+  TaskEither<Failure, Quote> getFromStorage() =>
       repository.getRandom().flatMap((r) => repository.getFromStorage());
 
   // Possono essere concatenati n task attraverso n flatMap
