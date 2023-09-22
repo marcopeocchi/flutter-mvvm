@@ -8,7 +8,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {
   await InjectionContainer.init();
-  await dotenv.load(fileName: ".env.local");
+  await dotenv.load(fileName: '.env.local');
   await SentryFlutter.init(
     (options) {
       options.dsn = dotenv.env['SENTRY_DSN'];
