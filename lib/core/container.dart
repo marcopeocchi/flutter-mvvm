@@ -10,7 +10,7 @@ import 'package:mvvm_study/ye/stores/quotes.dart';
 class InjectionContainer {
   static final sl = GetIt.instance;
 
-  static void init() {
+  static Future<void> init() async {
     sl.registerLazySingleton<QuotesRepository>(
       () => QuotesRepositoryImpl(sl()),
     );

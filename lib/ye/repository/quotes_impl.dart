@@ -16,13 +16,13 @@ class QuotesRepositoryImpl implements QuotesRepository {
   final _url = 'https://api.kanye.rest/';
 
   @override
-  TaskEither<Failure, Quote> getRandom() => TaskEither.tryCatch(
+  TaskEither<Failure, Quote> getRandom() => TaskEither<Failure, Quote>.tryCatch(
         () => _makeRequest(),
         (error, stackTrace) => FetchFailure(
           error: error,
           stacktrace: stackTrace,
         ),
-      );
+      ).flatMap((r) => _cacheTask(r));
 
   Future<Quote> _makeRequest() async {
     // simulated API delay
@@ -43,10 +43,9 @@ class QuotesRepositoryImpl implements QuotesRepository {
         () => _fetchLocal(),
         (error, stackTrace) => SharedPreferenceFailure(
           error: error,
-          stacktrace: stackTrace.toString(),
+          stacktrace: stackTrace,
         ),
       );
-  // .flatMap((r) => _cacheTask(r));
 
   Future<Quote> _fetchLocal() async {
     final prefs = await SharedPreferences.getInstance();
@@ -64,7 +63,7 @@ class QuotesRepositoryImpl implements QuotesRepository {
         () => _cache(quote),
         (error, stackTrace) => SharedPreferenceFailure(
           error: error,
-          stacktrace: stackTrace.toString(),
+          stacktrace: stackTrace,
         ),
       );
 

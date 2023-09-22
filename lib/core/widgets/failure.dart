@@ -27,57 +27,59 @@ class FailureWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           color: mapSeverityToColor(failure.severity),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.warning_rounded,
-              color: Colors.black54,
-              size: 72,
-            ),
-            Text(
-              failure.type,
-              style: const TextStyle(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.warning_rounded,
                 color: Colors.black54,
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
+                size: 72,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                failure.message,
+              Text(
+                failure.type,
                 style: const TextStyle(
                   color: Colors.black54,
-                  fontSize: 16.0,
+                  fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                failure.error.toString(),
-                style: const TextStyle(
-                  color: Colors.black54,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  failure.message,
+                  style: const TextStyle(
+                    color: Colors.black54,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                failure.stacktrace.toString(),
-                style: const TextStyle(
-                  color: Colors.black54,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  failure.error.toString(),
+                  style: const TextStyle(
+                    color: Colors.black54,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  failure.stacktrace.toString(),
+                  style: const TextStyle(
+                    color: Colors.black54,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

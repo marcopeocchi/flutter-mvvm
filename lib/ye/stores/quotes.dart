@@ -1,7 +1,9 @@
 import 'package:mobx/mobx.dart';
+import 'package:mvvm_study/core/sentry.dart';
 import 'package:mvvm_study/ye/services/quotes.dart';
 import 'package:mvvm_study/ye/models/quote.dart';
 import 'package:mvvm_study/core/failure.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 part 'quotes.g.dart';
 
@@ -29,16 +31,26 @@ abstract class _QuotesStoreBase with Store {
   }
 
   void resetState() {
+    error = null;
     quote = null;
   }
 
   @action
   Future getRandom() async {
-    resetState(); // very importante: attiva lo stato di caricamento!
+    final transaction = Sentry.startTransaction('getRandom()', 'task');
+
+    resetState();
+
     final either = await _service.getRandom().run();
-    either.match(
-      (l) => error = l,
-      (r) => quote = r,
+    either.fold(
+      (l) {
+        error = l;
+        logFailure(l);
+      },
+      (r) async {
+        quote = r;
+        await transaction.finish();
+      },
     );
   }
 }
