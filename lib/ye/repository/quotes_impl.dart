@@ -20,7 +20,7 @@ class QuotesRepositoryImpl implements QuotesRepository {
         () => _makeRequest(),
         (error, stackTrace) => FetchFailure(
           error: error,
-          stacktrace: stackTrace.toString(),
+          stacktrace: stackTrace,
         ),
       );
 
@@ -34,9 +34,6 @@ class QuotesRepositoryImpl implements QuotesRepository {
     final data = await res.transform(utf8.decoder).join();
     final quote = Quote.fromJson(jsonDecode(data));
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString("cached", data);
-
     return quote;
   }
 
@@ -49,6 +46,7 @@ class QuotesRepositoryImpl implements QuotesRepository {
           stacktrace: stackTrace.toString(),
         ),
       );
+  // .flatMap((r) => _cacheTask(r));
 
   Future<Quote> _fetchLocal() async {
     final prefs = await SharedPreferences.getInstance();
@@ -59,5 +57,21 @@ class QuotesRepositoryImpl implements QuotesRepository {
     }
 
     return Quote.fromJson(jsonDecode(data));
+  }
+
+  // ---------------------------------------------------------------------- //
+  TaskEither<Failure, Quote> _cacheTask(Quote quote) => TaskEither.tryCatch(
+        () => _cache(quote),
+        (error, stackTrace) => SharedPreferenceFailure(
+          error: error,
+          stacktrace: stackTrace.toString(),
+        ),
+      );
+
+  Future<Quote> _cache(Quote quote) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString("cached", jsonEncode(quote.toJson()));
+
+    return quote;
   }
 }

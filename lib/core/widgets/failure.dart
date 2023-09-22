@@ -19,7 +19,7 @@ class FailureWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.width / 1.5,
+        maxHeight: MediaQuery.of(context).size.width,
         minWidth: MediaQuery.of(context).size.width,
       ),
       child: Container(
@@ -48,6 +48,28 @@ class FailureWidget extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Text(
                 failure.message,
+                style: const TextStyle(
+                  color: Colors.black54,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                failure.error.toString(),
+                style: const TextStyle(
+                  color: Colors.black54,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                failure.stacktrace.toString(),
                 style: const TextStyle(
                   color: Colors.black54,
                   fontSize: 16.0,

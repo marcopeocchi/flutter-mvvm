@@ -6,12 +6,12 @@ enum FailureSeverity {
   low,
 }
 
-class Failure extends Equatable {
+abstract class Failure extends Equatable {
   final String type;
   final String message;
   final FailureSeverity severity;
   final Object? error;
-  final String? stacktrace;
+  final Object? stacktrace;
 
   const Failure({
     required this.type,
@@ -22,11 +22,5 @@ class Failure extends Equatable {
   });
 
   @override
-  List<Object?> get props => [
-        type,
-        message,
-        severity,
-        error,
-        stacktrace,
-      ];
+  List<Object?> get props => [type, message, severity, error, stacktrace];
 }
