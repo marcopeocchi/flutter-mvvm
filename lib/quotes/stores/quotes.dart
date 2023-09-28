@@ -1,7 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:mvvm_study/core/sentry.dart';
-import 'package:mvvm_study/ye/services/quotes.dart';
-import 'package:mvvm_study/ye/models/quote.dart';
+import 'package:mvvm_study/quotes/services/quotes.dart';
+import 'package:mvvm_study/quotes/models/quote.dart';
 import 'package:mvvm_study/core/failure.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 

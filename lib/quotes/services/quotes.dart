@@ -1,8 +1,8 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:mvvm_study/core/failure.dart';
-import 'package:mvvm_study/ye/models/quote.dart';
+import 'package:mvvm_study/quotes/models/quote.dart';
 
-abstract class QuotesRepository {
+abstract class QuotesService {
   TaskEither<Failure, Quote> getRandom();
   TaskEither<Failure, Quote> getFromStorage();
 }

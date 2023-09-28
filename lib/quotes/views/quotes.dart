@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mvvm_study/core/widgets/failure.dart';
-import 'package:mvvm_study/ye/stores/quotes.dart';
+import 'package:mvvm_study/quotes/stores/quotes.dart';
 import 'package:provider/provider.dart';
 
 class QuotesView extends StatefulWidget {

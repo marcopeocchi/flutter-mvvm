@@ -3,8 +3,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mvvm_study/core/injection_container.dart';
 import 'package:mvvm_study/todo/store/todo.dart';
 import 'package:mvvm_study/todo/views/todo.dart';
-import 'package:mvvm_study/ye/stores/quotes.dart';
-import 'package:mvvm_study/ye/views/quotes.dart';
+import 'package:mvvm_study/quotes/stores/quotes.dart';
+import 'package:mvvm_study/quotes/views/quotes.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
