@@ -78,24 +78,30 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const [Text('Todos'), Text('Quotes')][currentPage],
+        title: const [
+          Text('Todos'),
+          Text('Quotes'),
+        ][currentPage],
       ),
       body: PageView(
         controller: controller,
+        onPageChanged: (page) => setState(() {
+          currentPage = page;
+        }),
         children: const [
           TodosView(),
           QuotesView(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        onTap: (value) {
+        onTap: (page) {
           controller.animateToPage(
-            value,
+            page,
             duration: const Duration(milliseconds: 200),
             curve: Curves.bounceInOut,
           );
           setState(() {
-            currentPage = value;
+            currentPage = page;
           });
         },
         currentIndex: currentPage,

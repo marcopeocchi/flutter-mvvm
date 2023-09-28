@@ -4,6 +4,7 @@ import 'package:mobx/mobx.dart';
 import 'package:mvvm_study/core/widgets/failure.dart';
 import 'package:mvvm_study/todo/store/todo.dart';
 import 'package:mvvm_study/todo/views/add_todo.dart';
+import 'package:mvvm_study/todo/views/detail_todo.dart';
 import 'package:provider/provider.dart';
 
 class TodosView extends StatefulWidget {
@@ -53,18 +54,30 @@ class _TodosViewState extends State<TodosView> {
                 itemCount: store.todos!.length,
                 itemBuilder: (context, index) {
                   return Card(
-                      child: ListTile(
-                    title: Text(store.todos![index].title),
-                    subtitle: Text(store.todos![index].content),
-                    trailing: IconButton(
-                      icon: store.todos![index].completed
-                          ? const Icon(Icons.delete_outlined)
-                          : const Icon(Icons.task_alt),
-                      onPressed: store.todos![index].completed
-                          ? () => store.removeTodo(store.todos![index].id)
-                          : () => store.setCompleted(store.todos![index].id),
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder: (context, _, __) {
+                              return DetailsTodoView(
+                                todo: store.todos![index],
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      title: Text(store.todos![index].title),
+                      subtitle: Text(store.todos![index].content),
+                      trailing: IconButton(
+                        icon: store.todos![index].completed
+                            ? const Icon(Icons.delete_outlined)
+                            : const Icon(Icons.task_alt),
+                        onPressed: store.todos![index].completed
+                            ? () => store.removeTodo(store.todos![index].id)
+                            : () => store.setCompleted(store.todos![index].id),
+                      ),
                     ),
-                  ));
+                  );
                 },
               );
             },
