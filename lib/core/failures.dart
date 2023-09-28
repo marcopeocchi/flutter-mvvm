@@ -10,9 +10,9 @@ class FetchFailure extends Failure {
   });
 }
 
-class SharedPreferenceFailure extends Failure {
-  const SharedPreferenceFailure({
-    super.type = 'SharedPreferenceFailure',
+class LocalStorageFailure extends Failure {
+  const LocalStorageFailure({
+    super.type = 'LocalStorageFailure',
     super.message = 'An error occured while fetching from SharedPreferences',
     super.severity = FailureSeverity.high,
     super.stacktrace = '',

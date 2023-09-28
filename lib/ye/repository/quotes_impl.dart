@@ -10,8 +10,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class QuotesRepositoryImpl implements QuotesRepository {
   final HttpClient client;
+  final SharedPreferences preferences;
 
-  const QuotesRepositoryImpl(this.client);
+  const QuotesRepositoryImpl({
+    required this.client,
+    required this.preferences,
+  });
 
   final _url = 'https://api.kanye.rest/';
 
@@ -41,15 +45,14 @@ class QuotesRepositoryImpl implements QuotesRepository {
   @override
   TaskEither<Failure, Quote> getFromStorage() => TaskEither.tryCatch(
         () => _fetchLocal(),
-        (error, stackTrace) => SharedPreferenceFailure(
+        (error, stackTrace) => LocalStorageFailure(
           error: error,
           stacktrace: stackTrace,
         ),
       );
 
   Future<Quote> _fetchLocal() async {
-    final prefs = await SharedPreferences.getInstance();
-    final data = prefs.getString("cached");
+    final data = preferences.getString("cached");
 
     if (data == null) {
       throw const CacheMissFailure();
@@ -61,7 +64,7 @@ class QuotesRepositoryImpl implements QuotesRepository {
   // ---------------------------------------------------------------------- //
   TaskEither<Failure, Quote> _cacheTask(Quote quote) => TaskEither.tryCatch(
         () => _cache(quote),
-        (error, stackTrace) => SharedPreferenceFailure(
+        (error, stackTrace) => LocalStorageFailure(
           error: error,
           stacktrace: stackTrace,
         ),

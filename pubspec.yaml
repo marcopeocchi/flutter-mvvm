@@ -46,6 +46,7 @@ dependencies:
   shared_preferences: ^2.2.1
   sentry_flutter: ^7.10.1
   flutter_dotenv: ^5.1.0
+  nanoid: ^1.0.0
 
 dev_dependencies:
   flutter_test:
