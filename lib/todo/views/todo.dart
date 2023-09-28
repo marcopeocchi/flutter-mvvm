@@ -44,7 +44,7 @@ class _TodosViewState extends State<TodosView> {
                 return FailureWidget(failure: store.error!);
               }
               if (store.state == StoreState.initial) {
-                return const Text('Mmmhh, empty...');
+                return const Center(child: Text('Mmmhh, empty...'));
               }
               if (store.state == StoreState.loading) {
                 return const Center(child: CircularProgressIndicator());
@@ -52,7 +52,8 @@ class _TodosViewState extends State<TodosView> {
               return ListView.builder(
                 itemCount: store.todos!.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
+                  return Card(
+                      child: ListTile(
                     title: Text(store.todos![index].title),
                     subtitle: Text(store.todos![index].content),
                     trailing: IconButton(
@@ -63,7 +64,7 @@ class _TodosViewState extends State<TodosView> {
                           ? () => store.removeTodo(store.todos![index].id)
                           : () => store.setCompleted(store.todos![index].id),
                     ),
-                  );
+                  ));
                 },
               );
             },

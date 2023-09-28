@@ -64,11 +64,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late PageController controller;
+  late int currentPage;
 
   @override
   void initState() {
     super.initState();
-    controller = PageController(initialPage: 0);
+    currentPage = 0;
+    controller = PageController(initialPage: currentPage);
   }
 
   @override
@@ -76,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Hello!'),
+        title: const [Text('Todos'), Text('Quotes')][currentPage],
       ),
       body: PageView(
         controller: controller,
@@ -92,7 +94,11 @@ class _MyHomePageState extends State<MyHomePage> {
             duration: const Duration(milliseconds: 200),
             curve: Curves.bounceInOut,
           );
+          setState(() {
+            currentPage = value;
+          });
         },
+        currentIndex: currentPage,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.task_alt_rounded),
