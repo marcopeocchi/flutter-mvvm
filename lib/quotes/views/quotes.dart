@@ -66,8 +66,8 @@ class _QuoteState extends State<QuotesView> {
 
   @override
   void dispose() {
-    // I reaction vanno disfatti per rimuovere che vengano triggerati al di
-    // fuori del ciclo di vita del Widet.
+    // I reaction vanno disfatti per evitare che vengano triggerati al di
+    // fuori del ciclo di vita del Widget.
     disposers.map((disposer) => disposer());
     super.dispose();
   }
