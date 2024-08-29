@@ -9,7 +9,7 @@ part 'todo.g.dart';
 enum StoreState { initial, loading, loaded }
 
 class TodoStore extends _TodoStoreBase with _$TodoStore {
-  TodoStore(TodoService service) : super(service);
+  TodoStore(super.service);
 }
 
 abstract class _TodoStoreBase with Store {
@@ -67,20 +67,20 @@ abstract class _TodoStoreBase with Store {
         ))
         .run();
 
-    task.fold((l) => error = l, (r) => getAll());
+    task.match((l) => error = l, (r) => getAll());
   }
 
   @action
   Future<void> removeTodo(String id) async {
     final task = await _service.delete(id).run();
 
-    task.fold((l) => error = l, (r) => getAll());
+    task.match((l) => error = l, (r) => getAll());
   }
 
   @action
   Future<void> setCompleted(String id) async {
     final task = await _service.setCompleted(id).run();
 
-    task.fold((l) => error = l, (r) => getAll());
+    task.match((l) => error = l, (r) => getAll());
   }
 }

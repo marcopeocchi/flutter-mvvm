@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fpdart/fpdart.dart';
 import 'package:mvvm_study/core/failure.dart';
 import 'package:mvvm_study/core/failures.dart';
+import 'package:mvvm_study/todo/entities/todo.dart';
 import 'package:mvvm_study/todo/models/todo_model.dart';
 import 'package:mvvm_study/todo/repository/todo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,15 +38,23 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   @override
-  TaskEither<Failure, TodoModel> add(TodoModel todo) {
+  TaskEither<Failure, TodoModel> add(Todo todo) {
     return TaskEither.tryCatch(
       () async {
         var list = preferences.getStringList("todos");
         list ??= List.empty(growable: true);
 
-        list.add(jsonEncode(todo.toJson()));
+        final newTodo = TodoModel(
+          id: todo.id,
+          title: todo.title,
+          content: todo.content,
+          dueDate: todo.dueDate,
+          completed: todo.completed,
+        );
+
+        list.add(jsonEncode(newTodo.toJson()));
         preferences.setStringList("todos", list);
-        return todo;
+        return newTodo;
       },
       (error, stackTrace) => LocalStorageFailure(
         error: error,

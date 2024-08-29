@@ -3,10 +3,12 @@ import 'package:mvvm_study/core/failure.dart';
 
 class FailureWidget extends StatelessWidget {
   final Failure failure;
+  final bool fullWidth;
 
   const FailureWidget({
     super.key,
     required this.failure,
+    this.fullWidth = false,
   });
 
   Color mapSeverityToColor(FailureSeverity severity) => switch (severity) {
@@ -19,7 +21,8 @@ class FailureWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).size.width,
+        maxHeight:
+            fullWidth ? double.infinity : MediaQuery.of(context).size.width,
         minWidth: MediaQuery.of(context).size.width,
       ),
       child: Container(

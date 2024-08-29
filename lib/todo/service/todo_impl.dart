@@ -1,7 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:mvvm_study/core/failure.dart';
 import 'package:mvvm_study/todo/entities/todo.dart';
-import 'package:mvvm_study/todo/models/todo_model.dart';
 import 'package:mvvm_study/todo/repository/todo.dart';
 import 'package:mvvm_study/todo/service/todo.dart';
 
@@ -17,13 +16,7 @@ class TodoServiceImpl implements TodoService {
 
   @override
   TaskEither<Failure, Todo> add(Todo todo) {
-    return repository.add(TodoModel(
-      id: todo.id,
-      title: todo.title,
-      content: todo.content,
-      dueDate: todo.dueDate,
-      completed: todo.completed,
-    ));
+    return repository.add(todo);
   }
 
   @override

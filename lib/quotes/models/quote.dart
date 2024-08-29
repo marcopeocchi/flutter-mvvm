@@ -3,6 +3,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'quote.g.dart';
 
+// Modello
+
 @JsonSerializable()
 class Quote extends Equatable {
   final String? quote;

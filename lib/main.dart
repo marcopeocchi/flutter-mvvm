@@ -6,20 +6,13 @@ import 'package:mvvm_study/todo/views/todo.dart';
 import 'package:mvvm_study/quotes/stores/quotes.dart';
 import 'package:mvvm_study/quotes/views/quotes.dart';
 import 'package:provider/provider.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await InjectionContainer.init();
   await InjectionContainer.sl.allReady();
   await dotenv.load(fileName: '.env.local');
-  await SentryFlutter.init(
-    (options) {
-      options.dsn = dotenv.env['SENTRY_DSN'];
-      options.tracesSampleRate = 1.0;
-    },
-    appRunner: () => runApp(const MyApp()),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

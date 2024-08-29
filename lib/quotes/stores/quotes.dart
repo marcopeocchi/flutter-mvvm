@@ -9,8 +9,15 @@ part 'quotes.g.dart';
 
 enum StoreState { initial, loading, loaded }
 
+// La classe QuotesStore ha il compito di popolare lo store reattivo (che verrà
+// usato nella fase di costruzione dei widget) e del pattern matching degli
+// either/taskEither restituiti dai rispettivi services.
+//
+// Nella fase di pattern matching è possibile riportare gli errori ad altri
+// store o ad un SDK tipo Sentry.
+
 class QuotesStore extends _QuotesStoreBase with _$QuotesStore {
-  QuotesStore(QuotesService service) : super(service);
+  QuotesStore(super.service);
 }
 
 abstract class _QuotesStoreBase with Store {
@@ -35,13 +42,25 @@ abstract class _QuotesStoreBase with Store {
     quote = null;
   }
 
+  // Per naming convention getRandom ha lo stesso nome dei metodi delle repo e
+  // dei service.
+  //
+  // Il tastkEither del service verrà eseguito ed effettuato un pattern matching
+  // nel risultante either:
+  // La parte sinistra (l) conterrà l'eventuale errore/eccezione/failure.
+  // La parte destra (r) conterrà il dato effettivo.
+  //
+  // Se presente un errore verrà aggiornato lo store reattivo dell'errore che
+  // notificherà i Widget che osservano lo store.
+  // L'operazione analoga verrà effettuata con il dato effettivo.
   @action
   Future getRandom() async {
+    // Esempio di error reporting
     final transaction = Sentry.startTransaction('getRandom()', 'task');
     resetState();
 
     final either = await _service.getRandom().run();
-    either.fold(
+    either.match(
       (l) {
         error = l;
         logFailure(l);
